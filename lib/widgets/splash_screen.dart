@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 32), // Espacio entre la imagen y el texto
             const Text(
               'Accediendo a la app...',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ],
         ),
