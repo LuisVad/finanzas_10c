@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LoginState extends State<Login> {
     if (value == null || value.isEmpty) {
       return 'Por favor ingrese su contraseña';
     }
-    if (value.length < 6) {
+    /*if (value.length < 6) {
       return 'La contraseña debe tener al menos 6 caracteres';
     }
     if (!RegExp(r'[A-Z]').hasMatch(value)) {
@@ -42,7 +43,7 @@ class _LoginState extends State<Login> {
     }
     if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
       return 'La contraseña debe contener al menos un carácter especial';
-    }
+    }*/
     return null;
   }
 
@@ -97,13 +98,29 @@ class _LoginState extends State<Login> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Si la validación es exitosa
-                      print('Email: ${_email.text}');
-                      print('Password: ${_password.text}');
-                      Navigator.pushNamed(context, '/email-verificator');
-                    }
+                onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            //print('Email: ${_email.text}');
+                            //print('Password: ${_password.text}');
+                            try {
+                              final credential = await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: _email.text,
+                                      password: _password.text);
+
+                              print(credential.user ?? 'No user');
+
+                              if (credential.user != null) {
+                                Navigator.pushNamed(context, '/email-verificator');
+                              }
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print('No user found for that email.');
+                              } else if (e.code == 'wrong-password') {
+                                print('Wrong password provided for that user.');
+                              }
+                            }
+                          }
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.purple,

@@ -3,10 +3,13 @@ import 'package:finanzas_10c/screens/code/code_email.dart';
 import 'package:finanzas_10c/screens/email/email_verification.dart';
 import 'package:finanzas_10c/screens/password/password_verfication.dart';
 import 'package:finanzas_10c/widgets/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); // Inicializa Firebase
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
