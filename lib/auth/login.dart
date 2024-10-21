@@ -1,3 +1,4 @@
+import 'package:finanzas_10c/kernel/widgets/custom_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +46,46 @@ class _LoginState extends State<Login> {
       return 'La contraseña debe contener al menos un carácter especial';
     }*/
     return null;
+  }
+
+  Future<void> _signIn() async {
+    if (_formKey.currentState!.validate()) {
+       //print('Email: ${_email.text}');
+       //print('Password: ${_password.text}');
+    try {
+       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _email.text,
+          password: _password.text
+        );
+
+      // print(credential.user ?? 'No user');
+
+      if (credential.user != null) {
+        await showDialog(
+           context: context,
+            barrierDismissible: false, // Evitar cerrar tocando fuera
+            builder: (BuildContext context) {
+            return CustomDialog(
+              title: 'Éxito',
+              message: '¡Bienvenido al Sistema!',
+              icon: Icons.check_circle_outline,
+              iconColor: Colors.green,
+              buttonText: 'Entrar al Sistema',
+              onConfirmed: () {
+                 Navigator.pushNamed(context, '/email-verificator');
+              },
+            );
+          },
+        );
+      }
+        } on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found') {
+              print('No user found for that email.');
+            } else if (e.code == 'wrong-password') {
+              print('Wrong password provided for that user.');
+            }
+        }
+      }
   }
 
   @override
@@ -98,30 +139,7 @@ class _LoginState extends State<Login> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            //print('Email: ${_email.text}');
-                            //print('Password: ${_password.text}');
-                            try {
-                              final credential = await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: _email.text,
-                                      password: _password.text);
-
-                              print(credential.user ?? 'No user');
-
-                              if (credential.user != null) {
-                                Navigator.pushNamed(context, '/email-verificator');
-                              }
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'user-not-found') {
-                                print('No user found for that email.');
-                              } else if (e.code == 'wrong-password') {
-                                print('Wrong password provided for that user.');
-                              }
-                            }
-                          }
-                  },
+                onPressed: _signIn,
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.purple,
                     foregroundColor: Colors.white,

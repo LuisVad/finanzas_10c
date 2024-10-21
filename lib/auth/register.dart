@@ -49,25 +49,6 @@ class _RegisterState extends State<Register> {
     return null;
   }
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Por favor ingrese su contraseña';
-    }
-    /*if (value.length < 6) {
-      return 'La contraseña debe tener al menos 6 caracteres';
-    }
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'La contraseña debe contener al menos una letra mayúscula';
-    }
-    if (!RegExp(r'\d').hasMatch(value)) {
-      return 'La contraseña debe contener al menos un número';
-    }
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-      return 'La contraseña debe contener al menos un carácter especial';
-    }*/
-    return null;
-  }
-
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor ingrese su contraseña';
@@ -187,7 +168,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Inicio de Sesión'),
+          title: const Text('Crear Cuenta'),
           backgroundColor: Colors.purple,
           foregroundColor: Colors.white,
         ),
@@ -246,7 +227,7 @@ class _RegisterState extends State<Register> {
                 ),
                 controller: _confirmPassword,
                 obscureText: _isObscure,
-                validator: _validatePassword, // Validación de contraseña
+                validator: _validateConfirmPassword, // Validación de contraseña
               ),
               const SizedBox(height: 16),
               SizedBox(
@@ -264,38 +245,6 @@ class _RegisterState extends State<Register> {
                   child: const Text('Iniciar Sesión'),
                 ),
               ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: () => Navigator.pushNamed(context, '/register'),
-                child: const Text(
-                  '¿Eres nuevo? Registrate',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.blue),
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: GestureDetector(
-                  onTap: () {
-                    print('Se redirige a recuperar contraseña');
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Recuperar Contraseña',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontSize: 14, // Ajusta el tamaño según sea necesario
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              
             ],
           ),
         ),

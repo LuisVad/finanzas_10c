@@ -118,6 +118,7 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                     if (_formKey.currentState!.validate()) {
                       // Si la validación es exitosa
                       print('Contraseña válida y repetida correctamente');
+                      Navigator.pushNamed(context, '/profile');
                     }
                   },
                   style: OutlinedButton.styleFrom(
