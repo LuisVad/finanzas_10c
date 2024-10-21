@@ -133,6 +133,17 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(height: 8),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, '/register'),
+                child: const Text(
+                  '¿Eres nuevo? Registrate',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.blue),
+                ),
+              ),
+              const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
                 height: 40,
@@ -152,6 +163,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              
             ],
           ),
         ),
