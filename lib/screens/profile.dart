@@ -13,7 +13,8 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
-        backgroundColor: const Color.fromARGB(255, 26, 207, 180),
+        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -22,7 +23,7 @@ class Profile extends StatelessWidget {
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/logo-nu.jpg'),
+              backgroundImage: AssetImage('assets/jak-daxter.jpg'),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -71,7 +72,7 @@ class Profile extends StatelessWidget {
                               //print("Cerrando Sesión");
                               //Navigator.of(context).pop();
                               await FirebaseAuth.instance.signOut();
-                              Navigator.pushReplacementNamed(context, '/login');
+                              Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false,);
                             },
                           );
                         },

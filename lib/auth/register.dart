@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
   bool _isObscure = true;
+  bool _isObscureConfirm = true;
 
   // Función para validar el correo electrónico
   String? _validateEmail(String? value) {
@@ -115,7 +116,7 @@ class _RegisterState extends State<Register> {
                 buttonText: 'Ir al Login',
                 //buttonColor: Colors.green,
                 onConfirmed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false,);
                 },
               );
             },
@@ -212,21 +213,21 @@ class _RegisterState extends State<Register> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Contraseña',
+                  hintText: 'Confirmar Contraseña',
                   labelStyle: const TextStyle(color: Colors.black),
                   icon: IconButton(
                     onPressed: () {
                       setState(() {
-                        _isObscure = !_isObscure;
+                        _isObscureConfirm = !_isObscureConfirm;
                       });
                     },
-                    icon: Icon(_isObscure
+                    icon: Icon(_isObscureConfirm
                         ? Icons.visibility
                         : Icons.visibility_off),
                   ),
                 ),
                 controller: _confirmPassword,
-                obscureText: _isObscure,
+                obscureText: _isObscureConfirm,
                 validator: _validateConfirmPassword, // Validación de contraseña
               ),
               const SizedBox(height: 16),
@@ -242,7 +243,7 @@ class _RegisterState extends State<Register> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text('Iniciar Sesión'),
+                  child: const Text('Crear Cuenta'),
                 ),
               ),
             ],
