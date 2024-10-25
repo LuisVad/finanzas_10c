@@ -60,32 +60,51 @@ class _LoginState extends State<Login> {
 
       // print(credential.user ?? 'No user');
 
-      if (credential.user != null) {
-        await showDialog(
-           context: context,
-            barrierDismissible: false, // Evitar cerrar tocando fuera
-            builder: (BuildContext context) {
-            return CustomDialog(
-              title: 'Éxito',
-              message: '¡Bienvenido al Sistema!',
-              icon: Icons.check_circle_outline,
-              iconColor: Colors.green,
-              buttonText: 'Entrar al Sistema',
-              onConfirmed: () {
-                 Navigator.pushNamed(context, '/email-verificator');
-              },
-            );
-          },
-        );
-      }
-        } on FirebaseAuthException catch (e) {
-            if (e.code == 'user-not-found') {
-              print('No user found for that email.');
-            } else if (e.code == 'wrong-password') {
-              print('Wrong password provided for that user.');
-            }
+        if (credential.user != null) {
+          await showDialog(
+            context: context,
+              barrierDismissible: false, // Evitar cerrar tocando fuera
+              builder: (BuildContext context) {
+              return CustomDialog(
+                title: 'Éxito',
+                message: '¡Bienvenido al Sistema!',
+                icon: Icons.check_circle_outline,
+                iconColor: Colors.green,
+                buttonText: 'Entrar al Sistema',
+                onConfirmed: () {
+                  Navigator.pushNamed(context, '/email-verificator');
+                },
+              );
+            },
+          );
         }
+    } on FirebaseAuthException catch (e) {
+        print('FirebaseAuthException code: ${e.code}');
+        if (e.code == 'invalid-credential') {
+          await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return CustomDialog(
+                title: 'Error',
+                message: '¡El Usuario y Contraseña son Incorrectos!',
+                icon: Icons.error_outline_outlined,
+                iconColor: Colors.red,
+                buttonText: 'Cerrar',
+                onConfirmed: () {
+                  //Navigator.of(context).pop();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+              );
+            },
+          );
+        } else if (e.code == 'wrong-password') {
+          //print('Wrong password provided for that user.');
+        }
+      } catch (e) {
+        print('Error inesperado: $e');
       }
+    }
   }
 
   @override
